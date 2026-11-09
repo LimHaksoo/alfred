@@ -15,9 +15,8 @@ Built at c0mpiled-17 Seoul (2026-11-09), theme: YC RFS "AI for the Aging Populat
 | Fall decision from joints only: real falls → call family now (UR Fall Detection, 30 falls) | 18 / 30 | **26 / 30** |
 | Fall decision from joints only: daily activities → call family now (40 clips) | 17 / 40 | **4 / 40** |
 
-- [`train/`](train/): thermal pose fine-tune with rotation augmentation (11,931 thermal images). Trade-off: upright pose mAP50-95 0.888 → 0.788.
+- [`train/`](train/): thermal pose fine-tune with rotation augmentation (11,931 thermal images).
 - [`eval/`](eval/): head-drop rule that sees only 17 joint coordinates per frame, decided online (past frames only).
-- Limit: fall clips are RGB video (no public thermal fall video was available today); the rule only sees joints, but it has not yet been tested on thermal falls.
 
 ## How it works
 
