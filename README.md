@@ -1,6 +1,6 @@
 # Alfred
 
-**Always there. Even when you're asleep.**
+**Always with your parents, even while you sleep.**
 
 Alfred watches over older adults who are alone at night. It reads only body joints from a thermal camera (no faces), notices risky night-time movement, and responds before and after a fall: a voice prompt and a path light first, then a call to the family within seconds.
 
@@ -20,13 +20,15 @@ Built at c0mpiled-17 Seoul (2026-11-09), theme: YC RFS "AI for the Aging Populat
 
 ## How it works
 
-1. **Pose**: YOLO11 pose. A thermal model (OpenThermalPose2) runs first; if it finds nobody (it misses many lying people), the general RGB model runs on the same frame.
-2. **State**: lying → sitting → standing → walking → bathroom → floor, using bed/bathroom zones.
-3. **Body signals**: sit-to-stand time, pelvis sway after standing (÷ shoulder width), time on the floor.
-4. **Fall response in 3 stages**
-   - low near the floor outside the bed → voice check-in
-   - final descent faster than 0.35 standing-heights/s → call family now
-   - not back up within N s (default 20) → call family
+1. **Pose**: a thermal YOLO11 pose model finds 17 joints per person. We fine-tuned OpenThermalPose2 with rotation augmentation so it also finds people lying on the floor ([`train/`](train/)); if the thermal model finds nobody, the general RGB pose model runs on the same frame.
+2. **Joints only**: every step after pose sees only the 17 joint coordinates per frame, decided online (past frames only).
+3. **Fall response in 3 stages** (head-drop rule, [`eval/headdrop.py`](eval/headdrop.py)). Head height = (ankle level while standing − head y) / standing body height, both learned online.
+   - head drops by ≥ 0.65 standing heights within 1 s and reaches floor level (< 0.35) → **call family now**
+   - at floor level for ≥ 0.5 s without such a fast drop (slow slump) → **voice check-in** ("Are you okay?")
+   - still at floor level after 20 s → **call family**
+4. **Night context**: bed and bathroom zones separate lying in bed from lying on the floor, and track sit-to-stand time, sway after standing and time on the floor.
+
+The live demo loop (`run.py`, `alfred/monitor.py`) still uses the earlier rule (body extent + descent speed, the "Before" column above); the head-drop rule evaluated above is in `eval/` and is being moved into the live loop next.
 
 ## Run
 
