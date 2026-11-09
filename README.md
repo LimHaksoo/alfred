@@ -6,6 +6,19 @@ Alfred watches over older adults who are alone at night. It reads only body join
 
 Built at c0mpiled-17 Seoul (2026-11-09), theme: YC RFS "AI for the Aging Population".
 
+## Results (built today)
+
+| | Before | After |
+|---|---|---|
+| Thermal pose: people lying down found (OpenThermalPose2 test, 2,151 images rotated 90°) | 31% | **97%** |
+| Thermal pose: joint accuracy on people lying down (pose mAP50) | 0.00 | **0.92** |
+| Fall decision from joints only: real falls → call family now (UR Fall Detection, 30 falls) | 18 / 30 | **26 / 30** |
+| Fall decision from joints only: daily activities → call family now (40 clips) | 17 / 40 | **4 / 40** |
+
+- [`train/`](train/): thermal pose fine-tune with rotation augmentation (11,931 thermal images). Trade-off: upright pose mAP50-95 0.888 → 0.788.
+- [`eval/`](eval/): head-drop rule that sees only 17 joint coordinates per frame, decided online (past frames only).
+- Limit: fall clips are RGB video (no public thermal fall video was available today); the rule only sees joints, but it has not yet been tested on thermal falls.
+
 ## How it works
 
 1. **Pose**: YOLO11 pose. A thermal model (OpenThermalPose2) runs first; if it finds nobody (it misses many lying people), the general RGB model runs on the same frame.
