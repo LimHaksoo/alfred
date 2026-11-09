@@ -1,0 +1,7 @@
+ultralytics
+opencv-python
+numpy
+requests
+streamlit
+pandas
+scikit-learn

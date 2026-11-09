@@ -1,0 +1,9 @@
+*.pt
+*.onnx
+outputs/
+data/
+.env
+__pycache__/
+*.mp4
+*.mov
+.DS_Store
