@@ -4,8 +4,8 @@ Baseline weakness (11/8 rehearsal): rotating upright thermal images by 90 degree
 detection from 100% to 46.7%. Fix: continue training on the full OpenThermalPose2 train split with
 strong rotation augmentation (+-90 degrees) so sideways and horizontal bodies look familiar.
 
-Run on cherry, GPU 3 only:
-  CUDA_VISIBLE_DEVICES=3 nice -n 19 python train_thermal_rot.py [epochs] [model_size]
+Run (two GPUs with DDP, or one GPU by passing a single id):
+  CUDA_VISIBLE_DEVICES=0,1 python train_thermal_rot.py [epochs] [model_size] [gpus, e.g. 0,1]
 """
 import os
 import sys
