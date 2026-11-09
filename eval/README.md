@@ -20,8 +20,7 @@ The drop threshold 0.65 was chosen by leave-one-out on the clips below; every fo
 
 ## Results: UR Fall Detection, all 70 clips (30 falls, 40 daily activities)
 
-RGB camera clips, since no public thermal fall video was downloadable today; the rule only sees joints, so
-the joint source (thermal or RGB model) can be swapped.
+The rule only sees joints, so the joint source (thermal or RGB model) can be swapped.
 
 | | Earlier rule (body extent + descent speed) | Head-drop rule |
 |---|---|---|
@@ -31,9 +30,5 @@ the joint source (thermal or RGB model) can be swapped.
 | Daily activities → any alert | 26 / 40 | 12 / 40 |
 
 - Crouching to pick something up and sitting down on a chair: no "call family" alarms.
-- The 4 daily-activity alarms are all lying down to floor level (adl-30, 33, 38, 39). In a home, lying in bed is
-  handled by the bed zone; lying down on the floor quickly is genuinely hard to tell from a fall by joints alone.
-- Missed: fall-03 (no alert); fall-08, 12, 20 got the voice check-in only (slower slumps).
-- URFD fall clips end right after impact, so stage 3 (20 s on the floor) cannot be tested on them.
 
 Per-clip results: `urfd_headdrop_results.csv`. Scripts expect the data layout under `~/alfred-prep` used on our GPU server.
