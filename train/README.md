@@ -19,7 +19,9 @@ each way, with boxes and keypoints rotated along with the image.
 |---|---|---|---|
 | OpenThermalPose2 YOLO11l (original) | 0.888 | 0.31 | 0.00 |
 | General YOLO11m (RGB COCO) | 0.787 | 0.78–0.80 | 0.19 |
-| Ours, mid-training checkpoint (~10 epochs) | 0.530 | 0.91–0.92 | 0.77–0.80 |
+| **Ours, fine-tuned (60 epochs)** | 0.788 | **0.97** | **0.91–0.92** |
 
-Final numbers will replace the last row when training ends. Settings that mattered: AdamW at lr 0.0005
+Rotated joint mAP50-95 for ours is 0.71–0.72 (the original model: 0.00). Upright accuracy dropped from 0.888 to 0.788,
+about the level of the general RGB model, in exchange for tracking people at any angle. Training ran 60 epochs
+(~1 h on two RTX A6000); best validation joint mAP50-95 0.837. Settings that mattered: AdamW at lr 0.0005
 (the default SGD lr 0.01 wiped out the pretrained model in one epoch), rotation up to 90 degrees.
