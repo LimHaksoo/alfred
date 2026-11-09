@@ -41,6 +41,8 @@ def main():
 
     src = int(a.src) if a.src.isdigit() else a.src
     cap = cv2.VideoCapture(src)
+    if not cap.isOpened():
+        raise SystemExit(f"cannot open source {a.src!r} (webcam: check macOS camera permission)")
     fps = cap.get(cv2.CAP_PROP_FPS) or 30
     live = isinstance(src, int)
     out = Path(a.out)
